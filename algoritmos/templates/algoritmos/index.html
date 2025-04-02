@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmos en Django</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        input, button { padding: 8px; }
+        .result { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Algoritmos en Django</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Selecciona un algoritmo:</label>
+            <select name="algorithm" id="algorithm" onchange="updateForm()">
+                <option value="bubble_sort">Ordenamiento Burbuja</option>
+                <option value="binary_search">Búsqueda Binaria</option>
+                <option value="mcd">Máximo Común Divisor (MCD)</option>
+            </select>
+        </div>
+
+        <!-- Campo dinámico según el algoritmo seleccionado -->
+        <div id="input_fields"></div>
+        
+        <button type="submit">Ejecutar</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h3>Resultado:</h3>
+        <p>{{ result }}</p>
+    </div>
+    {% endif %}
+
+    <script>
+        function updateForm() {
+            const algorithm = document.getElementById("algorithm").value;
+            let html = "";
+            
+            if (algorithm === "bubble_sort") {
+                html = `
+                    <label>Ingresa números separados por comas:</label>
+                    <input type="text" name="input_data" required>
+                `;
+            } else if (algorithm === "binary_search") {
+                html = `
+                    <label>Lista de números (separados por comas):</label>
+                    <input type="text" name="input_data" required>
+                    <label>Número a buscar:</label>
+                    <input type="number" name="target" required>
+                `;
+            } else if (algorithm === "mcd") {
+                html = `
+                    <label>Número 1:</label>
+                    <input type="number" name="num1" required>
+                    <label>Número 2:</label>
+                    <input type="number" name="num2" required>
+                `;
+            }
+            
+            document.getElementById("input_fields").innerHTML = html;
+        }
+        
+        // Inicializar el formulario al cargar
+        document.addEventListener("DOMContentLoaded", updateForm);
+    </script>
+</body>
+</html>
