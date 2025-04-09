@@ -19,13 +19,13 @@
         <div class="form-group">
             <label>Selecciona un algoritmo:</label>
             <select name="algorithm" id="algorithm" onchange="updateForm()">
-                <option value="bubble_sort">Ordenamiento Burbuja</option>
-                <option value="binary_search">Búsqueda Binaria</option>
-                <option value="mcd">Máximo Común Divisor (MCD)</option>
+                <option value="ordenamientoBurbuja">Ordenamiento Burbuja</option>
+                <option value="busquedaBinaria">Búsqueda Binaria</option>
+                <option value="maximoComunDivisor">Máximo Común Divisor (MCD)</option>
             </select>
         </div>
 
-        <!-- Campo dinámico según el algoritmo seleccionado -->
+        
         <div id="input_fields"></div>
         
         <button type="submit">Ejecutar</button>
@@ -43,19 +43,19 @@
             const algorithm = document.getElementById("algorithm").value;
             let html = "";
             
-            if (algorithm === "bubble_sort") {
+            if (algorithm === "ordenamientoBurbuja") {
                 html = `
                     <label>Ingresa números separados por comas:</label>
                     <input type="text" name="input_data" required>
                 `;
-            } else if (algorithm === "binary_search") {
+            } else if (algorithm === "busquedaBinaria") {
                 html = `
                     <label>Lista de números (separados por comas):</label>
                     <input type="text" name="input_data" required>
                     <label>Número a buscar:</label>
                     <input type="number" name="target" required>
                 `;
-            } else if (algorithm === "mcd") {
+            } else if (algorithm === "maximoComunDivisor") {
                 html = `
                     <label>Número 1:</label>
                     <input type="number" name="num1" required>
@@ -67,7 +67,7 @@
             document.getElementById("input_fields").innerHTML = html;
         }
         
-        // Inicializar el formulario al cargar
+
         document.addEventListener("DOMContentLoaded", updateForm);
     </script>
 </body>
