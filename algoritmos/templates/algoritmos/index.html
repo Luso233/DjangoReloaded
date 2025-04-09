@@ -1,43 +1,232 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algoritmos en Django</title>
+    <title>Algoritmos Django</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .form-group { margin-bottom: 15px; }
-        input, button { padding: 8px; }
-        .result { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+        :root {
+            --primary-color: #ff0000;  /* Rojo */
+            --secondary-color: #121212; /* Fondo oscuro */
+            --accent-color: #ff3333;   /* Rojo más claro */
+            --text-color: #e0e0e0;     /* Texto claro */
+            --card-color: #1e1e1e;     /* Tarjetas oscuras */
+            --highlight-color: #ff4d4d; /* Resaltados */
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background-color: #000 !important;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.1);
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, #000, var(--primary-color));
+            color: white;
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #cc0000;
+            border-color: #cc0000;
+            transform: scale(1.02);
+        }
+        
+        .form-control, .form-select {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: var(--text-color);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: #333;
+            border-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
+        }
+        
+        .input-group-text {
+            background-color: #333;
+            border: 1px solid #444;
+            color: var(--primary-color);
+        }
+        
+        .result-container {
+            border-left: 4px solid var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .alert-success {
+            background-color: rgba(0, 100, 0, 0.2);
+            border: 1px solid #006400;
+            color: #aaffaa;
+        }
+        
+        .algorithm-icon {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        footer {
+            background-color: #000;
+            border-top: 2px solid var(--primary-color);
+            margin-top: 40px;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+        
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Efecto de neón para los títulos */
+        .neon-text {
+            text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color);
+        }
     </style>
 </head>
 <body>
-    <h1>Algoritmos en Django</h1>
     
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label>Selecciona un algoritmo:</label>
-            <select name="algorithm" id="algorithm" onchange="updateForm()">
-                <option value="ordenamientoBurbuja">Ordenamiento Burbuja</option>
-                <option value="busquedaBinaria">Búsqueda Binaria</option>
-                <option value="maximoComunDivisor">Máximo Común Divisor (MCD)</option>
-            </select>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand neon-text" href="#">
+                <i class="fas fa-gamepad algorithm-icon"></i>ALGORITMOS 
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home algorithm-icon"></i> INICIO</a>
+                    </li>
+                    
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        
-        <div id="input_fields"></div>
-        
-        <button type="submit">Ejecutar</button>
-    </form>
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold"><i class="fas fa-keyboard algorithm-icon"></i> CONSOLA DE ALGORITMOS</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label class=" form-label fw-bold text-uppercase text-light">Selecciona un algoritmo:</label>
+                                <select name="algorithm" id="algorithm" class="form-select form-select-lg bg-dark text-light" onchange="updateForm()">
+                                    <option value="ordenamientoBurbuja"><i class="fas fa-sort-amount-down"></i> ORDENAMIENTO BURBUJA</option>
+                                    <option value="busquedaBinaria"><i class="fas fa-search"></i> BÚSQUEDA BINARIA</option>
+                                    <option value="maximoComunDivisor"><i class="fas fa-divide"></i> MÁXIMO COMÚN DIVISOR</option>
+                                </select>
+                            </div>
 
-    {% if result %}
-    <div class="result">
-        <h3>Resultado:</h3>
-        <p>{{ result }}</p>
+                            <div id="input_fields" class="mb-4">
+                                
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                                    <i class="fas fa-play"></i> EJECUTAR ALGORITMO
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% if result %}
+                <div class="card result-container">
+                    <div class="card-header" style="background: linear-gradient(to right, #000, #ff0000);">
+                        <h5 class="m-0 font-weight-bold"><i class="fas fa-terminal algorithm-icon"></i> RESULTADO</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-success bg-dark" role="alert">
+                            <h4 class="alert-heading">¡OPERACIÓN EXITOSA! <i class="fas fa-check-circle"></i></h4>
+                            <hr style="border-color: #ff0000;">
+                            <pre class="mb-0 font-monospace" style="color: #00ff00;">{{ result }}</pre>
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-outline-danger" onclick="copyToClipboard()">
+                                <i class="far fa-copy"></i> COPIAR RESULTADO
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    {% endif %}
 
+   
+    <footer class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-end">
+                    <div class="h4">
+                        <a href="https://github.com/Luso233/DjangoReloaded" class="text-danger mx-2"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #ff0000;">
+        </div>
+    </footer>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
     <script>
         function updateForm() {
             const algorithm = document.getElementById("algorithm").value;
@@ -45,30 +234,86 @@
             
             if (algorithm === "ordenamientoBurbuja") {
                 html = `
-                    <label>Ingresa números separados por comas:</label>
-                    <input type="text" name="input_data" required>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-uppercase text-light">Ingresa números:</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark"><i class="fas fa-list-ol text-danger"></i></span>
+                            <input type="text" class="form-control form-control-lg bg-dark text-light" name="input_data" placeholder="Ej: 5, 3, 8, 1, 2" required>
+                        </div>
+                        <div class="form-text text-muted">Separados por comas, sin espacios</div>
+                    </div>
                 `;
             } else if (algorithm === "busquedaBinaria") {
                 html = `
-                    <label>Lista de números (separados por comas):</label>
-                    <input type="text" name="input_data" required>
-                    <label>Número a buscar:</label>
-                    <input type="number" name="target" required>
+                    <div class="mb-3">
+                        <label class="text-light form-label fw-bold text-uppercase">Lista ordenada:</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark"><i class="fas fa-sort-numeric-up text-danger"></i></span>
+                            <input type="text" class="form-control form-control-lg bg-dark text-light" name="input_data" placeholder="Ej: 1, 2, 3, 4, 5" required>
+                        </div>
+                        <div class="form-text text-muted">La lista debe estar ordenada</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class=" text-light form-label fw-bold text-uppercase">Número a buscar:</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark"><i class="fas fa-bullseye text-danger"></i></span>
+                            <input type="number" class="form-control form-control-lg bg-dark text-light" name="target" placeholder="Ej: 3" required>
+                        </div>
+                    </div>
                 `;
             } else if (algorithm === "maximoComunDivisor") {
                 html = `
-                    <label>Número 1:</label>
-                    <input type="number" name="num1" required>
-                    <label>Número 2:</label>
-                    <input type="number" name="num2" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-light form-label fw-bold text-uppercase">Número 1:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark">#1</span>
+                                <input type="number" class="form-control form-control-lg bg-dark text-light" name="num1" placeholder="Ej: 48" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-light form-label fw-bold text-uppercase">Número 2:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark">#2</span>
+                                <input type="number" class="form-control form-control-lg bg-dark text-light" name="num2" placeholder="Ej: 18" required>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }
             
             document.getElementById("input_fields").innerHTML = html;
         }
         
+        function copyToClipboard() {
+            const resultText = document.querySelector('.alert pre').innerText;
+            navigator.clipboard.writeText(resultText)
+                .then(() => {
+                    const copyBtn = document.querySelector('[onclick="copyToClipboard()"]');
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIADO!';
+                    copyBtn.classList.remove('btn-outline-danger');
+                    copyBtn.classList.add('btn-success');
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.classList.remove('btn-success');
+                        copyBtn.classList.add('btn-outline-danger');
+                    }, 2000);
+                });
+        }
 
+        
         document.addEventListener("DOMContentLoaded", updateForm);
+        
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.neon-text');
+            elements.forEach(el => {
+                el.style.animation = 'none';
+                void el.offsetWidth; // Trigger reflow
+                el.style.animation = null;
+            });
+        });
     </script>
 </body>
 </html>
